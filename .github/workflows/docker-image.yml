@@ -34,5 +34,5 @@ jobs:
  
           script: |
             cd /var/www/docker-hirehub
-            docker-compose -f compose.yml build
-            docker-compose -f compose.yml up -d
+            docker-compose -f compose.yml backend build
+            docker-compose -f compose.yml up backend -d
