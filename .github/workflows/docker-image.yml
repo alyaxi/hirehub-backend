@@ -33,6 +33,7 @@ jobs:
 
  
           script: |
+            cd /var/www/docker-hirehub/backend && git pull origin main
             cd /var/www/docker-hirehub
             docker-compose -f compose.yml backend build
             docker-compose -f compose.yml up backend -d
