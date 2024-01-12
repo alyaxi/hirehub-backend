@@ -32,5 +32,6 @@ jobs:
 
       - name: Build and Deploy
         run: |
-          docker-compose -f /var/www/docker-hirehub/compose.yml build
-          docker-compose -f /var/www/docker-hirehub/compose.yml up -d
+          cd /var/www/docker-hirehub/
+          docker-compose -f compose.yml build
+          docker-compose -f compose.yml up -d
