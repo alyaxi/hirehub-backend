@@ -35,5 +35,4 @@ jobs:
           script: |
             cd /var/www/docker-hirehub/backend && git pull origin main
             cd /var/www/docker-hirehub
-            docker-compose -f compose.yml -f compose-prod.yml backend build
-            docker-compose -f compose.yml -f compose-prod.yml up backend -d
+            docker-compose -f compose.yml -f compose-prod.yml up backend -d --build
