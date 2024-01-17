@@ -33,6 +33,7 @@ const appliedJobSchema = new mongoose.Schema({
   employerId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Employer", // Assuming you have an Employer model
+    required: true
   },
 });
 

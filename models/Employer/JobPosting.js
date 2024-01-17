@@ -137,7 +137,7 @@ const jobPostingSchema = new mongoose.Schema({
   candidateId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'CandidateProfile',
-    required: true,
+    // required: true,
   },
 
 });
