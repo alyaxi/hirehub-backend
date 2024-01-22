@@ -38,7 +38,7 @@ app.use("/api", AppliedJobRoutes);
 const PORT = process.env.PORT || 8000;
 
 
-mongoose.connect("mongodb://database:27017/hrhub", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   loadBalanced: mongoose.NativeBuffer,
@@ -50,6 +50,8 @@ mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error: ' + err);
 
 });
+
+console.log(process.env.MONGODB_URI ,"Database ont his serverrrrr")
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB');
