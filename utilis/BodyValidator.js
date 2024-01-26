@@ -52,53 +52,6 @@ const resetPasswordValidator = [
   },
 ];
 
-const jobPostingValidator = [
-  body('position').notEmpty().withMessage('Position is required'),
-  body('noOfOpening').isNumeric().withMessage('Number of openings must be a number'),
-  body('expirationDate').isISO8601().withMessage('Invalid expiration date format'),
-  body('salary').optional().isNumeric().withMessage('Salary must be a number'),
-  body('package').optional().isNumeric().withMessage('Package must be a number'),
-  body('location').optional().isString().withMessage('Location must be a string'),
-  body('jobStatus').optional().isIn(['open', 'closed', 'republished']).withMessage('Invalid job status'),
-  body('jobType').optional().isIn(['fullTime', 'partTime', 'temporary', 'contract', 'internship', 'commission', 'newGrad']).withMessage('Invalid job type'),
-  body('JobShift').optional().isIn(['morning', 'daytime', 'evening', 'night', 'flexible', 'remote', 'on-call', 'rotational', 'other']).withMessage('Invalid JobShift'),
-  body('careerLevel').optional().isIn(['entry', 'mid', 'senior', 'executive']).withMessage('Invalid career level'),
-  body('minimumQualification').optional().isString().withMessage('Minimum qualification must be a string'),
-  body('noOfHiring').optional().isNumeric().withMessage('Number of hiring must be a number'),
-  body('payRange.min').optional().isNumeric().withMessage('Minimum pay must be a number'),
-  body('payRange.max').optional().isNumeric().withMessage('Maximum pay must be a number'),
-  body('payRange.hourlyRate').optional().isNumeric().withMessage('Hourly rate must be a number'),
-  body('companyOverview').optional().isString().withMessage('Company overview must be a string'),
-  body('coreValues').optional().isString().withMessage('Core values must be a string'),
-  body('jobDescription').optional().isString().withMessage('Job description must be a string'),
-  body('jdFile').optional().isString().withMessage('JD file must be a string'),
-  body('impactOfPosition').optional().isString().withMessage('Impact of position must be a string'),
-  body('responsibilities').optional().isString().withMessage('Responsibilities must be a string'),
-  body('positionGrowth').optional().isString().withMessage('Position growth must be a string'),
-  body('competencies').optional().isString().withMessage('Competencies must be a string'),
-  body('requirements').optional().isString().withMessage('Requirements must be a string'),
-  body('kpis').optional().isString().withMessage('KPIs must be a string'),
-  body('benefits').optional().isString().withMessage('Benefits must be a string'),
-  body('postedDate').optional().isISO8601().withMessage('Invalid posted date format'),
-  body('AppliedBefore').optional().isISO8601().withMessage('Invalid AppliedBefore date format'),
-  body('industry').optional().isString().withMessage('Industry must be a string'),
-  body('gender').optional().isIn(['Male', 'Female', 'No Preference']).withMessage('Invalid gender'),
-  body('experience').optional().isNumeric().withMessage('Experience must be a number'),
-  body('department').optional().isString().withMessage('Department must be a string'),
-  body('jobMode').optional().isIn(['onsite', 'remote', 'hybrid']).withMessage('Invalid job mode'),
-
-  (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return respond(
-        res,
-        { msg: 'Validation error', error: errors.errors[0].msg },
-        400
-      );
-    }
-    next();
-  },
-];
 
 const updateJobStatusValidator = [
   body('jobStatus')
@@ -272,7 +225,50 @@ const validateAppliedJob = [
 ];
 
 
+const validateJobPosting = [
+    body('positionTitle').isString().notEmpty().withMessage('Invalid positionTitle'),
+    body('jobType').isString().notEmpty().withMessage('Invalid jobType'),
+    body('noOfOpenings').isInt({ min: 1 }).withMessage('Invalid noOfOpenings'),
+    body('expirationDate').isISO8601().toDate().withMessage('Invalid expirationDate'),
+    body('jobLocation').isString().notEmpty().withMessage('Invalid jobLocation'),
+    body('jdFile').optional().isString().withMessage('Invalid jdFile'),
+    body('salary.type').isIn(['range', 'single']).withMessage('Invalid salary type'),
+    body('aboutPosition').isString().notEmpty().withMessage('Invalid aboutPosition'),
+    body('benefits.*').isString().optional().withMessage('Invalid benefit'),
+    body('qualification').isString().notEmpty().withMessage('Invalid qualification'),
+    body('responsibilities').isString().notEmpty().withMessage('Invalid responsibilities'),
+    body('skills').isString().notEmpty().withMessage('Invalid skills'),
+    body('industry').isString().notEmpty().withMessage('Invalid industry'),
+    body('JobShift').optional().isString().withMessage('Invalid JobShift'),
+    body('department').isString().notEmpty().withMessage('Invalid department'),
+    body('gender').isString().notEmpty().withMessage('Invalid gender'),
+    body('minimumEducation').isString().notEmpty().withMessage('Invalid minimumEducation'),
+    body('careerLevel').isString().notEmpty().withMessage('Invalid careerLevel'),
+    body('experience').isString().notEmpty().withMessage('Invalid experience'),
+    body('jobMode').optional().isString().withMessage('Invalid jobMode'),
+    body('isDeleted').optional().isBoolean().withMessage('Invalid isDeleted'),
+    body('careerLevel').optional().isString().withMessage('Invalid careerLevel'),
+    body('jobStatus').optional().isIn(['Open', 'Closed', 'Republished']).withMessage('Invalid jobStatus'),
+    body('candidateId').optional().isMongoId().withMessage('Invalid candidateId'),
+    body('applicationCount').optional().isInt({ min: 0 }).withMessage('Invalid applicationCount'),
+
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return respond(
+          res,
+          { msg: 'Validation error', error: errors.errors[0].msg },
+          400
+        );
+      }
+      next();
+    },
+];
 
 
 
-module.exports = { updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, jobPostingValidator, updateJobStatusValidator, createCandidateProfileValidator };
+
+
+
+
+module.exports = {validateJobPosting, updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, updateJobStatusValidator, createCandidateProfileValidator };
