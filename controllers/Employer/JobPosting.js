@@ -45,89 +45,24 @@ exports.getJobsByEmployer = async (req, res, next) => {
 };
 
 exports.addJobByEmployer = async (req, res, next) => {
+
     try {
-        const employerId = req.user.id; // Assuming the employer ID is in the authenticated user object
-        const {
-            position,
-            noOfOpening,
-            expirationDate,
-            salary,
-            package,
-            location,
-            jobStatus,
-            jobType,
-            JobShift,
-            careerLevel,
-            minimumQualification,
-            noOfHiring,
-            payRange: { min, max, hourlyRate },
-            companyOverview,
-            coreValues,
-            jobDescription,
-            jdFile,
-            impactOfPosition,
-            responsibilities,
-            positionGrowth,
-            competencies,
-            requirements,
-            kpis,
-            benefits,
-            postedDate,
-            AppliedBefore,
-            industry,
-            gender,
-            experience,
-            department,
-            jobMode,
-            isDeleted
-        } = req.body;
+        const employerId = req.user.id;
 
-
-
-
+        // Now, you can use the employerId in your job creation logic
         const newJob = new JobPosting({
-            position,
-            employerId,
-            noOfOpening,
-            expirationDate,
-            salary,
-            package,
-            location,
-            jobStatus,
-            jobType,
-            JobShift,
-            careerLevel,
-            minimumQualification,
-            noOfHiring,
-            payRange: { min, max, hourlyRate },
-            companyOverview,
-            coreValues,
-            jobDescription,
-            jdFile,
-            impactOfPosition,
-            responsibilities,
-            positionGrowth,
-            competencies,
-            requirements,
-            kpis,
-            benefits,
-            postedDate,
-            AppliedBefore,
-            industry,
-            gender,
-            experience,
-            department,
-            jobMode,
-            isDeleted
+            ...req.body,
+            employerId: new Types.ObjectId(employerId), // Assuming employerId is a valid ObjectId
         });
 
         const savedJob = await newJob.save();
-
-        respond(res, { savedJob });
+        respond(res, { msg: 'Job created successfully', job: savedJob });
     } catch (error) {
         console.error(error);
         next(error);
     }
+
+
 };
 
 exports.updateJobByEmployer = async (req, res, next) => {

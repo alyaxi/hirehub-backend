@@ -1,144 +1,122 @@
+// models/JobPosting.js
+
 const mongoose = require('mongoose');
 
 const jobPostingSchema = new mongoose.Schema({
-  position: {
-    type: String,
-    required: true,
-  },
-  employerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  applicationCount: {
-    type: Number,
-    default: 0,
-  },
-  noOfOpening: {
-    type: Number,
-    required: true,
-  },
-  expirationDate: {
-    type: Date,
-    required: true,
-  },
-  salary: {
-    type: Number,
-  },
-  package: {
-    type: Number,
-  },
-  location: {
-    type: String,
-  },
-  jobStatus: {
-    type: String,
-    enum: ['open', 'closed', 'republished'],
-    default: 'open',
-  },
-  jobType: {
-    type: String,
-    enum: ['fullTime', 'partTime', 'temporary', 'contract', 'internship', 'commission', 'newGrad'],
-  },
-  JobShift: {
-    type: String,
-    enum: [
-      'morning',
-      'daytime',
-      'evening',
-      'night',
-      'flexible',
-      'remote',
-      'on-call',
-      'rotational',
-      'other',
-    ]
-  },
-  careerLevel: {
-    type: String,
-    enum: ['entry', 'mid', 'senior', 'executive']
-  },
-  minimumQualification: {
-    type: String,
-  },
-  noOfHiring: {
-    type: Number,
-  },
-
-  payRange: {
-    min: {
-      type: Number,
+    positionTitle: {
+        type: String,
+        required: true,
+      },
+    jobType: {
+        type: String,
+        required: true,
     },
-    max: {
-      type: Number,
+    noOfOpenings: {
+        type: String,
+        required: true,
     },
-    hourlyRate: {
-      type: Number,
+    expirationDate: {
+        type: Date,
+        required: true,
     },
-  },
-  companyOverview: {
-    type: String,
-  },
-  coreValues: {
-    type: String,
-  },
-  jobDescription: {
-    type: String,
-  },
-  jdFile: {
-    type: String, // File path or storage reference
-  },
-  impactOfPosition: {
-    type: String,
-  },
-  responsibilities: {
-    type: String,
-  },
-  positionGrowth: {
-    type: String,
-  },
-  competencies: {
-    type: String,
-  },
-  requirements: {
-    type: String,
-  },
-  kpis: {
-    type: String,
-  },
-  benefits: {
-    type: String,
-  },
-  postedDate: {
-    type: Date,
-    default: Date.now,
-  },
-  AppliedBefore: {
-    type: Date,
-  },
-  industry: {
-    type: String,
-  },
-  gender: {
-    type: String,
-    enum: ["Male", "Female", "No Prefrence"]
-  },
-  experience: {
-    type: Number,
-  },
-  department: {
-    type: String,
-
-  },
-  jobMode: {
-    type: String,
-    enum: ["onsite", "remote", "hybrid"]
-  },
-  isDeleted: {
-    type: Boolean,
-    default: false
-  },
-  candidateId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'CandidateProfile',
-    // required: true,
-  },
+    postedDate: {
+        type: String,
+    },
+    employerId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    jobLocation: {
+        type: String,
+        required: true,
+    },
+    jdFile: {
+        type: String, 
+      },
+    salary: {
+        type: {
+            type: String,
+            enum: ['range', "single"],
+            required: true,
+        },
+        value: {
+            type: String,
+        },
+        rate: {
+            type: String,
+            required: true,
+        },
+    },
+    aboutPosition: {
+        type: String,
+        required: true,
+    },
+    benefits: [
+        {
+            type: String,
+        },
+    ],
+    qualification: {
+        type: String,
+        required: true,
+    },
+    responsibilities: {
+        type: String,
+        required: true,
+    },
+    skills: {
+        type: String,
+        required: true,
+    },
+    industry: {
+        type: String,
+        required: true,
+    },
+    jobShift: {
+        type: String,
+        required: true
+      },
+    department: {
+        type: String,
+        required: true,
+    },
+    gender: {
+        type: String,
+        required: true,
+    },
+    minimumEducation: {
+        type: String,
+        required: true,
+    },
+    careerLevel: {
+        type: String,
+        required: true,
+    },
+    experience: {
+        type: String,
+        required: true,
+    },
+    jobMode: {
+        type: String,
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
+    careerLevel: {
+        type: String,
+    },
+    jobStatus: {
+        type: String,
+        enum: ['Open', 'Closed', 'Republished'],
+        default: 'Open',
+    },
+    candidateId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'CandidateProfile',
+        // required: true,
+    },
+    applicationCount: {
+        type: Number,
+        default: 0,
+      },
 
 });
 
