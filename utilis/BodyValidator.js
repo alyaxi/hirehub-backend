@@ -59,7 +59,7 @@ const updateJobStatusValidator = [
     .withMessage('Job status is required')
     .isString()
     .withMessage('Job status must be a string')
-    .isIn(['open', 'closed', 'republished'])
+    .isIn(['Open', 'Closed', 'Republished'])
     .withMessage('Invalid job status. Must be one of: open, closed, republished'),
   (req, res, next) => {
     const errors = validationResult(req);
