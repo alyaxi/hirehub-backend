@@ -6,7 +6,14 @@ exports.getJobsByAll = async (req, res, next) => {
     try { // Assuming the employer ID is in the authenticated user object
 
         // const jobs = await JobPosting.findOne({ employerId: employerId }).populate("employerId")
-        const jobs = await JobPosting.find()
+        const jobs = await JobPosting.aggregate([{
+            $lookup: {
+                from: "employers",
+                localField: "employerId",
+                foreignField: "userId",
+                as: "employer"
+            }
+        }])
 
 
         respond(res, { jobs });
@@ -87,7 +94,7 @@ exports.updateJobByEmployer = async (req, res, next) => {
             return respond(res, { error: "Job not found or unauthorized" }, 404);
         }
 
-        respond(res, { updatedJob });
+        respond(res, { msg: "Status has been updated" });
     } catch (error) {
         console.error(error);
         next(error);
