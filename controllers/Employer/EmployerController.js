@@ -27,11 +27,24 @@ const ManageEmployerProfile = {
   },
   async updateEmployerInformation(req, res, next) {
     try {
+      const protocol = req.protocol;
+      const host = req.get('host');
+
+      let link;
+
+      if (host === 'localhost:4000' && protocol === 'http') {
+        link = 'http://localhost:4000';
+      } else if (host === '167.99.148.81' && protocol === 'http') {
+        link = 'http://167.99.148.81/server';
+      } else {
+        // Default link if conditions are not met
+        link = 'default-link';
+      }
       let employerId = req.user.id;
       // await updateEmployerInformationValidator(req,res,next);
       let { companyName, noOfEmployes, phoneNo, companyIndustry, description } = req.body;
       console.log(req.files, "filesssssssssss")
-      const logoFile = req.files["logo"] ? `${req.protocol}://${req.get("host")}/${req.files['logo'][0].originalname}` : "" ;
+      const logoFile = req.files["logo"] ? `${link}/${req.files['logo'][0].originalname}` : "";
       const welcomeVideoFile = req.files["welcomeVideo"] ? `${req?.protocol}://${req?.get("host")}/${req?.files['welcomeVideo'][0]?.originalname}` : ""
       const updatedUserData = {
         companyName,
@@ -55,7 +68,7 @@ const ManageEmployerProfile = {
       ).select("-password");
       console.log({ employer });
       return respond(res, { employer, msg: "Information has been updated" });
-  
+
       // res.status(200).json({ employer });
     } catch (error) {
       console.log(error);
