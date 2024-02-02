@@ -96,107 +96,108 @@ const deleteJobValidator = [
 ];
 
 const createCandidateProfileValidator = [
-  // User ID validation
 
+  body('personalInformationData').isObject().optional(),
+  body('personalInformationData.profilePicture').isString().optional(),
+  body('personalInformationData.careerLevel').isString().optional(),
+  body('personalInformationData.city').isString().optional(),
+  body('personalInformationData.country').isString().optional(),
+  body('personalInformationData.dob').isString().optional(),
+  body('personalInformationData.experience').isString().optional(),
+  body('personalInformationData.gender').isString().optional(),
+  body('personalInformationData.phoneNo').isString().optional(),
+  body('personalInformationData.profileCompletion').isString().optional(),
+  body('personalInformationData.state').isString().optional(),
+  body('personalInformationData.statusLine').isString().optional(),
+  body('personalInformationData.zipCode').isString().optional(),
+  body('personalInformationData.accountStatus').isIn(["Active", "Disabled", "OnHold"]).optional(),
+  body('personalInformationData.isVerified').isBoolean().optional(),
+  body('personalInformationData.isDeleted').isBoolean().optional(),
 
-  // Personal Information validation
-  body('personalInformation')
-    .isObject()
-    .withMessage('Personal Information should be an object'),
+  // Validation for summery object
+  body('summery').isObject().optional(),
+  body('summery.text').isString().optional(),
+  body('summery.isDeleted').isBoolean().optional(),
 
-  body('personalInformation.avatar').optional().isString().withMessage('Avatar should be a string'),
-  body('personalInformation.name').optional().isString().withMessage('Name should be a string'),
-  body('personalInformation.lastName').optional().isString().withMessage('Last Name should be a string'),
-  body('personalInformation.email').optional().isEmail().withMessage('Invalid email address'),
-  body('personalInformation.mobile').optional().isString().withMessage('Mobile should be a string'),
-  body('personalInformation.dateOfBirth').optional().isISO8601().toDate().withMessage('Invalid date format'),
-  body('personalInformation.gender').optional().isString().withMessage('Gender should be a string'),
-  body('personalInformation.nationality').optional().isString().withMessage('Nationality should be a string'),
-  body('personalInformation.city').optional().isString().withMessage('City should be a string'),
-  body('personalInformation.area').optional().isString().withMessage('Area should be a string'),
-  body('personalInformation.careerLevel').optional().isString().withMessage('Career Level should be a string'),
-  body('personalInformation.experience').optional().isString().withMessage('Experience should be a string'),
-  body('personalInformation.expectedSalary').optional().isNumeric().withMessage('Expected Salary should be a number'),
-  body('personalInformation.zipCode').optional().isString().withMessage('Zip Code should be a string'),
-  body('personalInformation.accountStatus').optional().isString().withMessage('Account Status should be a string'),
-  body('personalInformation.isVerified').optional().isBoolean().withMessage('Is Verified should be a boolean'),
-  body('personalInformation.isDeleted').optional().isBoolean().withMessage('Is Deleted should be a boolean'),
+  // Validation for projectsData array
+  body('projectsData').isArray().optional(),
+  body('projectsData.*.id').isString().optional(),
+  body('projectsData.*.associated').isString().optional(),
+  body('projectsData.*.currentlyInProcess').isBoolean().optional(),
+  body('projectsData.*.name').isString().optional(),
+  body('projectsData.*.projectUrl').isString().optional(),
+  body('projectsData.*.description').isString().optional(),
+  body('projectsData.*.projectImage').isString().optional(),
+  body('projectsData.*.startDate').isString().optional(),
+  body('projectsData.*.endDate').isString().optional(),
+  body('projectsData.*.isDeleted').isBoolean().optional(),
 
-  // Summary validation
-  body('summary')
-    .isObject()
-    .withMessage('Summary should be an object'),
+  // Validation for experiencesData array
+  body('experiencesData').isArray().optional(),
+  body('experiencesData.*.id').isString().optional(),
+  body('experiencesData.*.title').isString().optional(),
+  body('experiencesData.*.company').isString().optional(),
+  body('experiencesData.*.industry').isString().optional(),
+  body('experiencesData.*.directlyManageTeam').isString().optional(),
+  body('experiencesData.*.noOfPeople').isString().optional(),
+  body('experiencesData.*.salary').isString().optional(),
+  body('experiencesData.*.selectedCountry').isString().optional(),
+  body('experiencesData.*.selectedCity').isString().optional(),
+  body('experiencesData.*.startDate').isString().optional(),
+  body('experiencesData.*.agreeTerms').isString().optional(),
+  body('experiencesData.*.description').isString().optional(),
+  body('experiencesData.*.isDeleted').isBoolean().optional(),
 
-  body('summary.description').optional().isString().withMessage('Summary description should be a string'),
-  body('summary.isDeleted').optional().isBoolean().withMessage('Summary Is Deleted should be a boolean'),
+  // Validation for educationsData array
+  body('educationsData').isArray().optional(),
+  body('educationsData.*.id').isString().optional(),
+  body('educationsData.*.organization').isString().optional(),
+  body('educationsData.*.degree').isString().optional(),
+  body('educationsData.*.fieldOfStudy').isString().optional(),
+  body('educationsData.*.startDate').isString().optional(),
+  body('educationsData.*.endDate').isString().optional(),
+  body('educationsData.*.selectedCountry').isString().optional(),
+  body('educationsData.*.grade').isString().optional(),
+  body('educationsData.*.isDeleted').isBoolean().optional(),
 
-  // Projects validation
-  body('projects')
-    .isArray()
-    .withMessage('Projects should be an array'),
+  // Validation for skillsData array
+  body('skillsData').isArray().optional(),
+  body('skillsData.*.id').isString().optional(),
+  body('skillsData.*.title').isString().optional(),
+  body('skillsData.*.experience').isString().optional(),
+  body('skillsData.*.isDeleted').isBoolean().optional(),
 
-  body('projects')
-    .isArray()
-    .withMessage('Projects should be an array'),
+  // Validation for languagesData array
+  body('languagesData').isArray().optional(),
+  body('languagesData.*.id').isInt().optional(),
+  body('languagesData.*.title').isString().optional(),
+  body('languagesData.*.proficiency').isString().optional(),
+  body('languagesData.*.isDeleted').isBoolean().optional(),
 
-  // Experience validation
-  body('experience')
-    .isArray()
-    .withMessage('Experience should be an array')
-    .optional(),
+  // Validation for jobPreference object
+  body('jobPreference').isObject().optional(),
+  body('jobPreference.desiredJobTitle').isArray().optional(),
+  body('jobPreference.desiredSalary').isNumeric().optional(),
+  body('jobPreference.relocation').isObject().optional(),
+  body('jobPreference.relocation.anywhere').isBoolean().optional(),
+  body('jobPreference.relocation.onlyNearMe').isObject().optional(),
+  body('jobPreference.relocation.onlyNearMe.locations').isArray().optional(),
+  body('jobPreference.skills').isArray().optional(),
+  body('jobPreference.onlyNearMeonlyNearMe').isString().optional(),
+  body('jobPreference.isDeleted').isBoolean().optional(),
 
-  // Education validation
-  body('education')
-    .isArray()
-    .withMessage('Education should be an array')
-    .optional(),
+  // Validation for resume and introVideo
+  body('resume').isString().optional(),
+  body('introVideo').isString().optional(),
 
-  // Skills validation
-  body('skills')
-    .isArray()
-    .withMessage('Skills should be an array')
-    .optional(),
-
-  // Languages validation
-  body('languages')
-    .isArray()
-    .withMessage('Languages should be an array')
-    .optional(),
-
-  // JobPreference validation
-  body('jobPreference')
-    .isObject()
-    .withMessage('JobPreference should be an object')
-    .optional(),
-
-  body('jobPreference.desiredJobTitle').optional().isArray().withMessage('Desired Job Title should be a string'),
-  body('jobPreference.desiredSalary').optional().isNumeric().withMessage('Desired Salary should be a number'),
-  body('jobPreference.skills').optional().isArray().withMessage('Skills should be an array'),
-  body('jobPreference.relocation')
-    .isObject()
-    .withMessage('Relocation should be an object')
-    .optional(),
-
-  body('jobPreference.relocation.anywhere').optional().isBoolean().withMessage('Relocation Anywhere should be a boolean'),
-  body('jobPreference.relocation.onlyNearMe.locations')
-    .isArray()
-    .withMessage('Relocation Only Near Me Locations should be an array'),
-
-  // ResumePrivacySetting validation
-  body('resumePrivacySetting')
-    .isString()
-    .withMessage('Resume Privacy Setting should be a string')
-    .optional()
-    .isIn(['Private', 'Public'])
-    .withMessage('Invalid Resume Privacy Setting'),
-
-
+  // Validation for resumePrivacySetting object
+  body('resumePrivacySetting').isString().isIn(['Private', 'Public']).optional(),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return respond(
         res,
-        { msg: 'Validation error', error: errors.errors[0].msg },
+        { msg: 'Validation error', error: errors.array() },
         400
       );
     }
@@ -226,43 +227,43 @@ const validateAppliedJob = [
 
 
 const validateJobPosting = [
-    body('positionTitle').isString().notEmpty().withMessage('Invalid positionTitle'),
-    body('jobType').isString().notEmpty().withMessage('Invalid jobType'),
-    body('noOfOpenings').isInt({ min: 1 }).withMessage('Invalid noOfOpenings'),
-    body('expirationDate').isISO8601().toDate().withMessage('Invalid expirationDate'),
-    body('jobLocation').isString().notEmpty().withMessage('Invalid jobLocation'),
-    body('jdFile').optional().isString().withMessage('Invalid jdFile'),
-    body('salary.type').isIn(['range', 'single']).withMessage('Invalid salary type'),
-    body('aboutPosition').isString().notEmpty().withMessage('Invalid aboutPosition'),
-    body('benefits.*').isString().optional().withMessage('Invalid benefit'),
-    body('qualification').isString().notEmpty().withMessage('Invalid qualification'),
-    body('responsibilities').isString().notEmpty().withMessage('Invalid responsibilities'),
-    body('skills').isString().notEmpty().withMessage('Invalid skills'),
-    body('industry').isString().notEmpty().withMessage('Invalid industry'),
-    body('JobShift').optional().isString().withMessage('Invalid JobShift'),
-    body('department').isString().notEmpty().withMessage('Invalid department'),
-    body('gender').isString().notEmpty().withMessage('Invalid gender'),
-    body('minimumEducation').isString().notEmpty().withMessage('Invalid minimumEducation'),
-    body('careerLevel').isString().notEmpty().withMessage('Invalid careerLevel'),
-    body('experience').isString().notEmpty().withMessage('Invalid experience'),
-    body('jobMode').optional().isString().withMessage('Invalid jobMode'),
-    body('isDeleted').optional().isBoolean().withMessage('Invalid isDeleted'),
-    body('careerLevel').optional().isString().withMessage('Invalid careerLevel'),
-    body('jobStatus').optional().isIn(['Open', 'Closed', 'Republished']).withMessage('Invalid jobStatus'),
-    body('candidateId').optional().isMongoId().withMessage('Invalid candidateId'),
-    body('applicationCount').optional().isInt({ min: 0 }).withMessage('Invalid applicationCount'),
+  body('positionTitle').isString().notEmpty().withMessage('Invalid positionTitle'),
+  body('jobType').isString().notEmpty().withMessage('Invalid jobType'),
+  body('noOfOpenings').isInt({ min: 1 }).withMessage('Invalid noOfOpenings'),
+  body('expirationDate').isISO8601().toDate().withMessage('Invalid expirationDate'),
+  body('jobLocation').isString().notEmpty().withMessage('Invalid jobLocation'),
+  body('jdFile').optional().isString().withMessage('Invalid jdFile'),
+  body('salary.type').isIn(['range', 'single']).withMessage('Invalid salary type'),
+  body('aboutPosition').isString().notEmpty().withMessage('Invalid aboutPosition'),
+  body('benefits.*').isString().optional().withMessage('Invalid benefit'),
+  body('qualification').isString().notEmpty().withMessage('Invalid qualification'),
+  body('responsibilities').isString().notEmpty().withMessage('Invalid responsibilities'),
+  body('skills').isString().notEmpty().withMessage('Invalid skills'),
+  body('industry').isString().notEmpty().withMessage('Invalid industry'),
+  body('JobShift').optional().isString().withMessage('Invalid JobShift'),
+  body('department').isString().notEmpty().withMessage('Invalid department'),
+  body('gender').isString().notEmpty().withMessage('Invalid gender'),
+  body('minimumEducation').isString().notEmpty().withMessage('Invalid minimumEducation'),
+  body('careerLevel').isString().notEmpty().withMessage('Invalid careerLevel'),
+  body('experience').isString().notEmpty().withMessage('Invalid experience'),
+  body('jobMode').optional().isString().withMessage('Invalid jobMode'),
+  body('isDeleted').optional().isBoolean().withMessage('Invalid isDeleted'),
+  body('careerLevel').optional().isString().withMessage('Invalid careerLevel'),
+  body('jobStatus').optional().isIn(['Open', 'Closed', 'Republished']).withMessage('Invalid jobStatus'),
+  body('candidateId').optional().isMongoId().withMessage('Invalid candidateId'),
+  body('applicationCount').optional().isInt({ min: 0 }).withMessage('Invalid applicationCount'),
 
-    (req, res, next) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return respond(
-          res,
-          { msg: 'Validation error', error: errors.errors[0].msg },
-          400
-        );
-      }
-      next();
-    },
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return respond(
+        res,
+        { msg: 'Validation error', error: errors.errors[0].msg },
+        400
+      );
+    }
+    next();
+  },
 ];
 
 
@@ -271,4 +272,4 @@ const validateJobPosting = [
 
 
 
-module.exports = {validateJobPosting, updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, updateJobStatusValidator, createCandidateProfileValidator };
+module.exports = { validateJobPosting, updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, updateJobStatusValidator, createCandidateProfileValidator };

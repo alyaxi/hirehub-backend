@@ -28,21 +28,18 @@ const ManageCandidateProfile = {
         try {
             const candidateId = req.user.id;
 
-            // Fetch the existing user data
             let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
 
             if (!existingUserData) {
                 return respond(res, { error: "Candidate profile not found" }, 404);
             }
 
-            // Merge the existing data with the updated data from the request body
             const updatedUserData = { ...existingUserData.toObject(), ...req.body };
 
-            // Update the user data in the database
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },
                 updatedUserData,
-                { new: true } // Return the updated document
+                { new: true } 
             );
 
             if (!updatedProfile) {
@@ -54,7 +51,7 @@ const ManageCandidateProfile = {
             console.error(error);
             next(error);
         }
-    }
+    },
 }
 
     module.exports = ManageCandidateProfile;

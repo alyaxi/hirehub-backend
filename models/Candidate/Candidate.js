@@ -6,102 +6,138 @@ const candidateProfileSchema = new mongoose.Schema({
     ref: 'User', // Assuming there's a User model
     required: true,
   },
-  personalInformation: {
-    avatar: String,
-    lastName: String,
-    mobile: String,
-    dateOfBirth: Date,
-    gender: String,
-    nationality: String,
-    city: String,
-    area: String,
+  personalInformationData: {
+    profilePicture: String,
     careerLevel: String,
+    city: String,
+    country: String,
+    dob: String,
     experience: String,
-    expectedSalary: Number,
+    gender: String,
+    phoneNo: String,
+    profileCompletion: String,
+    state: String,
+    statusLine: String,
     zipCode: String,
-    accountStatus: String,
-    isVerified: Boolean,
-    isDeleted: Boolean,
+    accountStatus: {
+      type: String,
+      enum: ["Active", "Disabled", "OnHold"]
+    },
+    isVerified: {
+      type: Boolean,
+      default: true
+    },
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
   },
-  summary: {
-    description: String,
-    isDeleted: Boolean,
+  summery:
+  {
+    text: String,
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
   },
-  projects: [
+  projectsData: [
     {
-      uploadImage: String,
+      id: String,
+      associated: String,
+      currentlyInProcess: Boolean,
       name: String,
       projectUrl: String,
-      startDate: Date,
-      endDate: Date,
-      currentlyInProcess: Boolean,
-      associated: String,
       description: String,
-      isDeleted: Boolean,
+      projectImage: String,
+      startDate: String,
+      endDate: String,
+      isDeleted: {
+        type: Boolean,
+        default: false
+      },
     },
   ],
-  experience: [
+  experiencesData: [
     {
+      id: String,
       title: String,
       company: String,
       industry: String,
-      directlyManagedTeam: {
-        answer: Boolean,
-        noOfPeoples: Number,
-      },
-      salary: Number,
-      location: String,
-      city: String,
-      startDate: Date,
-      currentlyWorking: Boolean,
+      directlyManageTeam: String,
+      noOfPeople: String,
+      salary: String,
+      selectedCountry: String,
+      selectedCity: String,
+      startDate: String,
+      agreeTerms: String,
       description: String,
-      isDeleted: Boolean,
+      isDeleted: {
+        type: Boolean,
+        default: false
+      },
     },
   ],
-  education: [
+  educationsData: [
     {
-      school: String,
+      id: String,
+      organization: String,
       degree: String,
       fieldOfStudy: String,
-      startDate: Date,
-      endDate: Date,
-      location: String,
+      startDate: String,
+      endDate: String,
+      selectedCountry: String,
       grade: String,
-      isDeleted: Boolean,
+      isDeleted: {
+        type: Boolean,
+        default: false
+      },
     },
   ],
-  skills: [
+  skillsData: [
     {
-      addNewSkills: String,
-      experienceSkill: Number,
-      isDeleted: Boolean,
+      id: String,
+      title: String,
+      experience: String,
+      isDeleted: {
+        type: Boolean,
+        default: false
+      },
     },
   ],
-  languages: [
+  languagesData: [
     {
-      addNewLanguage: String,
+      id: Number,
+      title: String,
       proficiency: String,
+       isDeleted: {
+        type: Boolean,
+        default: false
+      },
     },
   ],
   jobPreference: {
     desiredJobTitle: [String],
     desiredSalary: Number,
-    skills: [String],
     relocation: {
       anywhere: Boolean,
       onlyNearMe: {
         locations: [String],
       },
     },
+    skills: [String],
+    onlyNearMeonlyNearMe: String,
+    isDeleted: {
+      type: Boolean,
+      default: false
+    },
   },
   resume: String,
   introVideo: String,
   resumePrivacySetting: {
     type: String,
-    enum: ['Private', 'Public'],
+    enum: ['Private', 'Public']
   },
 });
-
 const CandidateProfile = mongoose.model('CandidateProfile', candidateProfileSchema);
 
 module.exports = CandidateProfile;
