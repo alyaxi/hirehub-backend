@@ -27,6 +27,7 @@ const ManageCandidateProfile = {
     async updateCandidateInfo(req, res, next) {
         try {
             const candidateId = req.user.id;
+            console.log(req.body, "bodyyyyyyyy")
             const protocol = req.protocol;
             const host = req.get('host');
 
@@ -52,7 +53,6 @@ const ManageCandidateProfile = {
             if (!existingUserData) {
                 return respond(res, { error: "Candidate profile not found" }, 404);
             }
-
             // Merge existing data with new data
             const updatedUserData = {
                 ...existingUserData ? existingUserData.toObject() : {},
@@ -63,12 +63,12 @@ const ManageCandidateProfile = {
                     profilePicture: profilePicture || (existingUserData?.personalInformationData?.profilePicture || ''),
                 },
                 introVideo: introVideo || existingUserData.introVideo,
-                projectsData: req.body.projectsData.map(project => ({
+                projectsData: req.body.projectsData?.map(project => ({
                     ...existingUserData.projectsData.id(project.id) ? existingUserData.projectsData.id(project.id).toObject() : {},
                     ...project,
                     projectImage: projectImage || existingUserData.projectsData.id(project.id)?.projectImage,
                 })),
-                
+
             };
 
             // Update candidate profile
