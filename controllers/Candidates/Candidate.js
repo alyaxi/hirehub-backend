@@ -59,11 +59,11 @@ const ManageCandidateProfile = {
                 : '';
 
             // console.log({ profilePicture, projectImage, file: req.files })
-            console.log({ projectsData: req.body.projectsData})
+            // console.log({ projectsData: req.body.projectsData })
 
 
             // Find existing user data
-            console.log({ projectImage })
+            // console.log({ projectImage })
             console.log(req.body, "bodyyyyyyyy")
             let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
             // console.log(existingUserData, "existingUserData")
@@ -86,11 +86,15 @@ const ManageCandidateProfile = {
                     ...project,
                     // projectImage: projectImage 
                 })),
+                jobPreference:req?.body
+
                 // projectsData: req.body.projectsData
 
                 // projectsData: {projectImage, ...req?.body?.projectsData, }
 
             };
+
+
 
             // Update candidate profile
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
@@ -147,11 +151,11 @@ const ManageCandidateProfile = {
             //         projectImage: projectImage
             //     }
             // }
-            console.log({ updatedUserData:req?.body?.projectsData })
+            console.log({ updatedUserData: req?.body?.projectsData })
 
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },
-                 { projectsData: req?.body?.projectsData } ,
+                { projectsData: req?.body?.projectsData },
                 { new: true }
             );
 
@@ -172,24 +176,19 @@ const ManageCandidateProfile = {
 
             let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
 
-
             if (!existingUserData) {
                 return respond(res, { error: "Candidate profile not found" }, 404);
             }
 
-
-
-            const updatedUserData = {
-
-                experiencesData: {
-                    ...req?.body?.experiencesData,
-                }
+            const experiencesData = {
+                ...req?.body?.experiencesData,
             }
-            console.log({ updatedUserData })
+
+            console.log(experiencesData, "bodyyyy")
 
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },
-                { $push: { experiencesData: req?.body?.experiencesData } },
+                { $push: { experiencesData: experiencesData } },
                 { new: true }
             );
 
@@ -210,24 +209,27 @@ const ManageCandidateProfile = {
 
             let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
 
-
             if (!existingUserData) {
                 return respond(res, { error: "Candidate profile not found" }, 404);
             }
 
+            // const updatedUserData = {
 
+            //     educationsData: {
+            //         ...req?.body?.educationsData,
+            //     }
+            // }
 
-            const updatedUserData = {
-
-                educationsData: {
-                    ...req?.body?.educationsData,
-                }
+            const educationsData = {
+                ...req?.body?.educationsData,
             }
-            console.log({ updatedUserData })
+
+            // console.log({ updatedUserData })
+            console.log(educationsData, "bodyyyy")
 
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },
-                { $push: { educationsData: req?.body?.educationsData } },
+                { $push: { educationsData: educationsData } },
                 { new: true }
             );
 
