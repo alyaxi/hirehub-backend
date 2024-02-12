@@ -81,7 +81,7 @@ const ManageCandidateProfile = {
                     profilePicture: profilePicture || (existingUserData?.personalInformationData?.profilePicture || ''),
                 },
                 introVideo: introVideo || existingUserData.introVideo,
-                projectsData: req.body.projectsData?.map(project => ({
+                projectsData: req?.body?.projectsData?.map(project => ({
                     ...existingUserData.projectsData,
                     ...project,
                     // projectImage: projectImage 
@@ -189,7 +189,7 @@ const ManageCandidateProfile = {
 
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },
-                { $push: { experiencesData: updatedUserData?.experiencesData } },
+                { $push: { experiencesData: req?.body?.experiencesData } },
                 { new: true }
             );
 
@@ -202,7 +202,123 @@ const ManageCandidateProfile = {
             console.error(error);
             next(error);
         }
-    }
+    },
+    async addEducation(req, res, next) {
+        try {
+            const candidateId = req.user.id;
+            // console.log(JSON.parse(JSON.stringify(req.body)), "bodyyyyyyyy")
+
+            let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
+
+
+            if (!existingUserData) {
+                return respond(res, { error: "Candidate profile not found" }, 404);
+            }
+
+
+
+            const updatedUserData = {
+
+                educationsData: {
+                    ...req?.body?.educationsData,
+                }
+            }
+            console.log({ updatedUserData })
+
+            const updatedProfile = await CandidateProfile.findOneAndUpdate(
+                { userId: candidateId },
+                { $push: { educationsData: req?.body?.educationsData } },
+                { new: true }
+            );
+
+            if (!updatedProfile) {
+                return respond(res, { error: "Failed to update candidate profile" }, 500);
+            }
+            return respond(res, { candidate: updatedProfile, msg: "Information has been updated" });
+
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    },
+    async addSkills(req, res, next) {
+        try {
+            const candidateId = req.user.id;
+            // console.log(JSON.parse(JSON.stringify(req.body)), "bodyyyyyyyy")
+
+            let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
+
+
+            if (!existingUserData) {
+                return respond(res, { error: "Candidate profile not found" }, 404);
+            }
+
+
+
+            const updatedUserData = {
+
+                skillsData: {
+                    ...req?.body?.skillsData,
+                }
+            }
+            console.log({ updatedUserData })
+
+            const updatedProfile = await CandidateProfile.findOneAndUpdate(
+                { userId: candidateId },
+                { $push: { skillsData: req?.body?.skillsData } },
+                { new: true }
+            );
+
+            if (!updatedProfile) {
+                return respond(res, { error: "Failed to update candidate profile" }, 500);
+            }
+            return respond(res, { candidate: updatedProfile, msg: "Information has been updated" });
+
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    },
+    async addlanguage(req, res, next) {
+        try {
+            const candidateId = req.user.id;
+            // console.log(JSON.parse(JSON.stringify(req.body)), "bodyyyyyyyy")
+
+            let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
+
+
+            if (!existingUserData) {
+                return respond(res, { error: "Candidate profile not found" }, 404);
+            }
+
+
+
+            const updatedUserData = {
+
+                languagesData: {
+                    ...req?.body?.languagesData,
+                }
+            }
+
+            console.log({ updatedUserData })
+
+            const updatedProfile = await CandidateProfile.findOneAndUpdate(
+                { userId: candidateId },
+                { $push: { languagesData: req?.body?.languagesData } },
+                { new: true }
+            );
+
+            if (!updatedProfile) {
+                return respond(res, { error: "Failed to update candidate profile" }, 500);
+            }
+            return respond(res, { candidate: updatedProfile, msg: "Information has been updated" });
+
+        } catch (error) {
+            console.error(error);
+            next(error);
+        }
+    },
+
 }
 
 module.exports = ManageCandidateProfile;
