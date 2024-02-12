@@ -19,6 +19,7 @@ const candidateProfileSchema = new mongoose.Schema({
     state: String,
     statusLine: String,
     zipCode: String,
+    expectedSalary:String,
     accountStatus: {
       type: String,
       enum: ["Active", "Disabled", "OnHold"]
@@ -35,10 +36,6 @@ const candidateProfileSchema = new mongoose.Schema({
   summery:
   {
     text: String,
-    isDeleted: {
-      type: Boolean,
-      default: false
-    },
   },
   projectsData: [
     {
