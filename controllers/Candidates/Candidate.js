@@ -185,7 +185,7 @@ const ManageCandidateProfile = {
                     ...req?.body?.experiencesData,
                 }
             }
-            console.log({ updatedUserData })
+            console.log(req?.body?.experiencesData, "bodyyyyy")
 
             const updatedProfile = await CandidateProfile.findOneAndUpdate(
                 { userId: candidateId },

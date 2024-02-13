@@ -95,6 +95,41 @@ const deleteJobValidator = [
   },
 ];
 
+
+
+// Validation middleware using express-validator
+const validateInterview = [
+  // Validate jobId
+  body('jobId').isEmpty('field required').withMessage('Invalid jobId'),
+
+  // Validate candidateId
+  body('candidateId').isEmpty('field required').withMessage('Invalid candidateId'),
+
+  // Validate scheduledBy
+  body('scheduledBy').isEmpty("field required").withMessage('Invalid scheduledBy'),
+
+  // Validate scheduledDate
+  body('scheduledDate').isISO8601().toDate().withMessage('Invalid scheduledDate'),
+
+  // Validate location
+  body('location').optional().isString().withMessage('Invalid location'),
+
+  // Validate notes
+  body('notes').optional().isString().withMessage('Invalid notes'),
+
+  // Validate status
+  body('status').optional().isIn(['Scheduled', 'Completed', 'Canceled']).withMessage('Invalid status'),
+
+  // Handle validation errors
+  (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+    next();
+  },
+];
+
 const createCandidateProfileValidator = [
 
   body('personalInformationData').isObject().optional(),
@@ -272,4 +307,4 @@ const validateJobPosting = [
 
 
 
-module.exports = { validateJobPosting, updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, updateJobStatusValidator, createCandidateProfileValidator };
+module.exports = {validateInterview, validateJobPosting, updateEmployerInformationValidator, validateAppliedJob, resetPasswordValidator, deleteJobValidator, updateJobStatusValidator, createCandidateProfileValidator };
