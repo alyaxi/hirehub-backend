@@ -114,7 +114,7 @@ const candidateProfileSchema = new mongoose.Schema({
   ],
   jobPreference: {
     desiredJobTitle: [String],
-    desiredSalary: Number,
+    desiredSalary: String,
     relocation: {
       anywhere: Boolean,
       onlyNearMe: {
@@ -122,10 +122,9 @@ const candidateProfileSchema = new mongoose.Schema({
       },
     },
     skills: [String],
-    onlyNearMeonlyNearMe: String,
     isDeleted: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
   resume: String,
