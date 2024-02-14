@@ -6,7 +6,8 @@ const respond = require("../../utilis/responseHelper");
 exports.getAppliedCandidates = async (req, res, next) => {
     try {
         const employerId = req.user.id; 
-
+        console.log(employerId, "employer");
+        // const appliedJobs = await AppliedJob.findOne({employerId: employerId});
         const appliedJobs = await AppliedJob.aggregate([
             {
                 $match: { employerId: new Types.ObjectId(employerId) }
@@ -36,20 +37,19 @@ exports.getAppliedCandidates = async (req, res, next) => {
                 }
             },
             {
-              $lookup: {
-                from: 'users',
-                localField: 'candidate.userId',
-                foreignField: '_id',
-                as: 'user'
-              }
+                $lookup: {
+                    from: 'users',
+                    localField: 'candidate.userId',
+                    foreignField: '_id',
+                    as: 'user'
+                }
             },
             {
                 $project: {
-                  'user.password': 0
+                    'user.password': 0
                 }
-              }
-
-        ])
+            }
+        ]);
         if (!appliedJobs || appliedJobs.length === 0) {
             
             return respond(res, 'Applied jobs not found', 404);

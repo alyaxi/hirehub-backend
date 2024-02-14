@@ -1,38 +1,59 @@
 const Interview = require("../../models/Employer/InterviewSchedule");
+const respond = require("../../utilis/responseHelper");
 
 const scheduleInterview = async (req, res) => {
-    try {
-      const {
-        jobId,
-        candidateId,
-        scheduledBy,
-        scheduledDate,
-        location,
-        notes,
-        status,
-      } = req.body;
-  
-      // Create a new interview instance
-      const interview = new Interview({
-        jobId,
-        candidateId,
-        scheduledBy,
-        scheduledDate,
-        location,
-        notes,
-        status,
-      });
-  
-      // Save the interview to the database
-      const savedInterview = await interview.save();
-  
-      res.status(201).json(savedInterview);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
-  
-  module.exports = {
-    scheduleInterview,
-  };
+  try {
+    const {
+      jobId,
+      candidateId,
+      scheduledDate,
+      location,
+      description,
+      attachments,
+      startTime,
+      endTime
+    } = req.body;
+    const employerId = req.user.id
+    // Create a new interview instance
+    const interview = new Interview({
+      jobId,
+      candidateId,
+      scheduledBy: employerId,
+      scheduledDate,
+      location,
+      description,
+      attachments,
+      startTime,
+      endTime
+    });
+
+    // Save the interview to the database
+    const savedInterview = await interview.save();
+
+    respond(res, { savedInterview });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+const getScheduleInterview = async (req, res, next) => {
+  try {
+    const employerId = req.user.id;
+
+    // Fetch scheduled interviews for the employer
+    const savedInterviews = await Interview.find({ scheduledBy: employerId });
+
+    respond(res, { savedInterviews });
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+};
+
+
+
+module.exports = {
+  scheduleInterview,
+  getScheduleInterview
+};

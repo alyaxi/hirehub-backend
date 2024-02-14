@@ -12,7 +12,7 @@ const CandidateProfile = require("../../models/Candidate/Candidate");
 const generateAccessToken = (user) => {
   // console.log(authConfig);
   return jwt.sign({ id: user._id, role: user.role }, process.env.access_token, {
-    expiresIn: "60m",
+    expiresIn: "24h",
   });
 };
 

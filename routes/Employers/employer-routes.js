@@ -7,7 +7,7 @@ const { GetEmployerById, updateEmployerInformation } = require("../../controller
 const { updateEmployerInformationValidator, validateInterview } = require("../../utilis/BodyValidator");
 const checkRole = require("../../middleware/CheckRole");
 const multerConfig = require("../../middleware/multerConfig");
-const { scheduleInterview } = require("../../controllers/Employer/Interview");
+const { scheduleInterview, getScheduleInterview } = require("../../controllers/Employer/Interview");
 
 
 
@@ -16,6 +16,7 @@ const cpUpload = upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'welcomeV
 
 router.get("/get-employer-by-id", authMiddleware, checkRole(["employer"]), GetEmployerById)
 router.post("/update-employer-by-id", authMiddleware, checkRole(["employer"]), updateEmployerInformationValidator, cpUpload, updateEmployerInformation)
-router.post('/schedule-interview',authMiddleware, checkRole(["employer"]), validateInterview, scheduleInterview);
+router.post('/schedule-interview',authMiddleware, checkRole(["employer"]), scheduleInterview);
+router.get('/get-schedule-interview',authMiddleware, checkRole(["employer"]), getScheduleInterview);
 
 module.exports = router

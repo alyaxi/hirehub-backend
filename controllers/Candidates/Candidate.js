@@ -64,7 +64,7 @@ const ManageCandidateProfile = {
 
             // Find existing user data
             // console.log({ projectImage })
-            console.log(req.body, "bodyyyyyyyy")
+            console.log(req.body, "bodyyyyyyyyy")
             let existingUserData = await CandidateProfile.findOne({ userId: candidateId });
             // console.log(existingUserData, "existingUserData")
 
@@ -86,7 +86,7 @@ const ManageCandidateProfile = {
                     ...project,
                     // projectImage: projectImage 
                 })),
-                jobPreference:req?.body
+                jobPreference: {...existingUserData.jobPreference, ...req?.body}
 
                 // projectsData: req.body.projectsData
 

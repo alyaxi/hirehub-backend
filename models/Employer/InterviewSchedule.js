@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const interviewSchema = new mongoose.Schema({
   jobId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'PostedJob', // Assuming there's a PostedJob model
+    ref: 'JobPosting', // Assuming there's a PostedJob model
     required: true,
   },
   candidateId: {
@@ -13,19 +13,31 @@ const interviewSchema = new mongoose.Schema({
   },
   scheduledBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Assuming there's a User model for the person scheduling the interview
+    ref: 'Employer', 
     required: true,
   },
   scheduledDate: {
-    type: Date,
+    type: String,
     required: true,
   },
-  location: String, // Interview location (if applicable)
-  notes: String, // Additional notes about the interview
+  attachments: String,
+  location: String, 
+  description: String, 
   status: {
     type: String,
     enum: ['Scheduled', 'Completed', 'Canceled'],
     default: 'Scheduled',
+  },
+  approvalInvite: {
+    type: String,
+    enum: ['Pending', 'Accepted', 'Declined'],
+    default: 'Pending',
+  },
+  startTime: {
+    type:String,
+  },
+  endTime: {
+    type:String,
   },
   created_at: {
     type: Date,
