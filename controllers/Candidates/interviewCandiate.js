@@ -55,10 +55,10 @@ const getScheduleInterview = async (req, res, next) => {
 const UpdateScheduleInterview = async (req, res, next) => {
   try {
     const candidateId = req.user.id;
-    const { jobId, approvalInvite } = req.body;
+    const { id, approvalInvite } = req.body;
 
     // Fetch scheduled interviews for the candidate
-    const existingInterview = await Interview.findOne({ candidateId: candidateId, jobId: jobId });
+    const existingInterview = await Interview.findOne({ candidateId: candidateId, _id: id });
 
     if (!existingInterview) {
       return res.status(404).json({ error: 'Interview not found for the specified candidate and job.' });
