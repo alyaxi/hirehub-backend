@@ -1,22 +1,22 @@
 const nodemailer = require("nodemailer");
 
-const sendForgetPasswordEmail = async (recipientEmail, html) => {
+const sendForgetPasswordEmail = async (recipientEmail, html, subject) => {
   try {
     // Create a nodemailer transporter using Gmail SMTP
     const transporter = nodemailer.createTransport({
       service: "gmail",
      
       auth: {
-        user: "syedaliuzzaman@gmail.com", // Your Gmail email address
-        pass: "xkwvshptvnxpmfvc", // Your Gmail password or an app-specific password
+        user: process.env.NOTIFICATION_EMAIL,
+        pass: process.env.NOTIFICATION_PASS,
       },
     });
 
     // Email content
     const mailOptions = {
-      from: "syed.zaman@octalyte.com", // Sender address
+      from: process.env.NOTIFICATION_EMAIL, // Sender address
       to: recipientEmail, // Recipient address
-      subject: "Password Reset", // Subject line
+      subject: subject, // Subject line
       text: html, // Plain text body
     };
 

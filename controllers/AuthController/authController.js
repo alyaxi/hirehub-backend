@@ -20,6 +20,20 @@ const generateRefreshToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.refresh_token);
 };
 
+const generateOTP = () => {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+};
+const sendOTPByEmail = async (email, otp) => {
+  const html = `<p>Your OTP for registration is: ${otp}</p>`;
+  const subject = "Registration OTP";
+
+  // Use your send email function
+  const result = await sendForgetPasswordEmail(email, html, subject);
+
+  return result;
+};
+
+
 const authController = {
   // User Login
 
@@ -88,12 +102,22 @@ const authController = {
       const { name, email, password, role } = req.body;
 
       const hashedPassword = await bcrypt.hash(password, 10);
+      // const otp = generateOTP();
+
+      // Send OTP via email
+      // const otpSent = await sendOTPByEmail(email, otp);
+
+      // if (!otpSent) {
+      //   return respond(res, { error: "Failed to send OTP" }, 500);
+      // }
+
 
       const newUser = {
         name,
         email,
         password: hashedPassword,
         role,
+        // otp
       };
 
       const existingUser = await Users.findOne({ email: newUser.email });
@@ -146,7 +170,7 @@ const authController = {
         ...NewUserAdded._doc,
         accessToken,
         refreshToken,
-        msg:"User has been created"
+        msg: "User has been created"
 
       }
       respond(res, {
@@ -209,7 +233,8 @@ const authController = {
       <p>Please click the following link to reset your password</p>
       <a href="${url}">Reset Password</a>
       `;
-      await sendForgetPasswordEmail(user.email, html);
+      const subject = "Forget Password"
+      await sendForgetPasswordEmail(user.email, html, subject);
       return respond(res, {
         Message
       });
@@ -228,7 +253,7 @@ const authController = {
 
     try {
       // const isValidToken = verifyToken(token, user);
-      const isValidToken = await   jwt.verify(
+      const isValidToken = await jwt.verify(
         token,
         process.env.access_token,
         { algorithms: ["HS256"] },
@@ -251,10 +276,10 @@ const authController = {
       console.log(isValidToken, "validdddddddtoken")
       if (updatedUser) {
 
-        return respond(res, {msg:"Password has beeen reset", updatedUser}, );
+        return respond(res, { msg: "Password has beeen reset", updatedUser },);
 
       } else {
-        return respond(res, "Something went Wrong",500);
+        return respond(res, "Something went Wrong", 500);
 
       }
 

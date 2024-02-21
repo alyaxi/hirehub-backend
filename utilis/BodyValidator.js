@@ -109,7 +109,7 @@ const validateInterview = [
   body('scheduledBy').isEmpty("field required").withMessage('Invalid scheduledBy'),
 
   // Validate scheduledDate
-  body('scheduledDate').isISO8601().toDate().withMessage('Invalid scheduledDate'),
+  // body('scheduledDate').isISO8601().toDate().withMessage('Invalid scheduledDate'),
 
   // Validate location
   body('location').optional().isString().withMessage('Invalid location'),
