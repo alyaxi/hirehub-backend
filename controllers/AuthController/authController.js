@@ -20,6 +20,8 @@ const generateRefreshToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.refresh_token);
 };
 
+
+
 const generateOTP = () => {
   return Math.floor(1000 + Math.random() * 9000).toString();
 };
@@ -204,7 +206,7 @@ const authController = {
       );
       if (updatedUser) {
 
-        return respond(res, "Password has beeen changed");
+        return respond(res, "Password has been changed");
       } else {
         return respond(res, "Something went Wrong", 500);
 
@@ -224,10 +226,17 @@ const authController = {
         return respond(res, "Email does not exist", 403);
       }
       console.log(user, "usererere");
+      const isProduction = process.env.NODE_ENV === 'production';
+
+      // Set the URL based on the environment
+
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       const Message = "Please check your email to reset your password";
-      const url = `http://localhost:3000/new-password/${accessToken}`;
+      const url = isProduction
+        ? `http://167.99.148.81/new-password/${accessToken}`
+        : `http://localhost:3000/new-password/${accessToken}`;
+
       const html = `
       <h1>Reset Password</h1>
       <p>Please click the following link to reset your password</p>
@@ -276,7 +285,7 @@ const authController = {
       console.log(isValidToken, "validdddddddtoken")
       if (updatedUser) {
 
-        return respond(res, { msg: "Password has beeen reset", updatedUser },);
+        return respond(res, { msg: "Password has been reset", updatedUser },);
 
       } else {
         return respond(res, "Something went Wrong", 500);

@@ -29,10 +29,20 @@ const ManageStaticContent = {
 
   CreateFAQ: async (req, res, next) => {
     try {
-      // Create a new FAQ
       const { title, description } = req.body;
-      const newFAQ = await ManageFAQS.findOneAndUpdate({ title, description });
-      respond(res, { newFAQ });
+      // Create a new FAQ
+      const existingFAQ = await ManageFAQS.findOne();
+      console.log(existingFAQ, "existingFAQ")
+
+      if (existingFAQ) {
+        // If it exists, update it
+        const newFAQ = await ManageFAQS.findOneAndUpdate({ title, description });
+        res.json({ newFAQ });
+      } else {
+        // If it doesn't exist, create a new one
+        const newFAQ = await ManageFAQS.create({ title, description });
+        res.json({ newFAQ });
+      }
     } catch (error) {
       console.error(error);
       next(error);
@@ -43,8 +53,19 @@ const ManageStaticContent = {
     try {
       // Create a new Term
       const { title, description } = req.body;
-      const newTerm = await ManageTerms.findOneAndUpdate({ title, description });
-      respond(res, { newTerm });
+      // Create a new FAQ
+      const existingFAQ = await ManageTerms.findOne();
+      console.log(existingFAQ, "existingFAQ")
+
+      if (existingFAQ) {
+        // If it exists, update it
+        const newTerm = await ManageTerms.findOneAndUpdate({ title, description });
+        res.json({ newTerm });
+      } else {
+        // If it doesn't exist, create a new one
+        const newTerm = await ManageTerms.create({ title, description });
+        res.json({ newTerm });
+      }
     } catch (error) {
       console.error(error);
       next(error);

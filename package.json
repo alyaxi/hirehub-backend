@@ -6,8 +6,10 @@
   "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -L server.js",
     "start": "node server.js",
-    "dev": "nodemon -L server.js"
+    "start-dev": "cross-env NODE_ENV=development node server.js",
+    "start-prod": "cross-env NODE_ENV=production node server.js"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +31,7 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "nodemon": "^3.0.1"
   }
 }
