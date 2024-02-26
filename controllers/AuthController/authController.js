@@ -237,43 +237,10 @@ const authController = {
         ? `http://167.99.148.81/new-password/${accessToken}`
         : `http://localhost:3000/new-password/${accessToken}`;
 
-       const html = `
+      const html = `
   <html>
     <head>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          background-color: #f4f4f4;
-        }
-        .container {
-          max-width: 600px;
-          margin: 0 auto;
-          padding: 20px;
-          background-color: #fff;
-          border-radius: 5px;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-          color: #333;
-        }
-        p {
-          color: #666;
-        }
-        .button {
-          display: inline-block;
-          padding: 10px 20px;
-          font-size: 16px;
-          color: #fff;
-          background-color: #007bff;
-          text-decoration: none;
-          border-radius: 5px;
-        }
-      </style>
-    </head>
     <body>
-      <div class="container">
         <h1>Reset Password</h1>
         <p>Please click the following link to reset your password:</p>
         <a href="${url}" class="button">Reset Password</a>
@@ -282,14 +249,6 @@ const authController = {
   </html>
 `;
 
-// Rest of your code...
-
-      
-      // Rest of your code...
-      
-      
-      // Rest of your code...
-      
       const subject = "Forget Password"
       await sendForgetPasswordEmail(user.email, html, subject);
       return respond(res, {
@@ -301,55 +260,55 @@ const authController = {
     }
   },
 
-  
+
   async recoverPassword(req, res, next) {
     const { token } = req.params;
     const { password } = req.body;
-  
+
     try {
       const isValidToken = await jwt.verify(token, process.env.access_token, { algorithms: ["HS256"] });
-  
+
       if (!isValidToken) {
         return respond(res, "Invalid token", 403);
       }
-  
+
       const user = await Users.findById(isValidToken.id);
       console.log(user, "user from auth Controller")
-  
+
       if (!user) {
         return respond(res, "User not found", 404);
       }
-  
+
       const isMatch = await bcrypt.compare(password, user.password);
       console.log("Input Password:", password);
       console.log("Stored Password:", user.password);
       console.log("Is Match:", isMatch);
-      
+
       if (isMatch) {
         return respond(res, "New password must be different from the previous one", 400);
       }
-  
+
       const hashedPassword = await bcrypt.hash(password, 8);
-  
+
       const updatedUser = await Users.findByIdAndUpdate(
         isValidToken.id,
         { $set: { password: hashedPassword } },
         { new: true }
       );
-  
+
       if (!updatedUser) {
         return respond(res, "Failed to update password", 500);
       }
-  
+
       return respond(res, { msg: "Password has been reset", updatedUser });
-  
+
     } catch (error) {
       console.error(error);
       return respond(res, "Something went wrong", 500);
     }
   },
-  
-  
+
+
   // async recoverPassword(req, res, next) {
   //   const { token } = req.params;
   //   const { password } = req.body;
