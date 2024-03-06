@@ -8,7 +8,7 @@ const updateEmployerInformationValidator = [
   body('noOfEmployes').optional().isString().withMessage('Number of employees must be a number'),
   // body('logo').notEmpty().withMessage('Logo must be provided'),
   // body('welcomeVideo').optional().withMessage('Welcome video must be a string'),
-  body('phoneNo').optional().isNumeric().withMessage('Phone number must be a number'),
+  body('phoneNo').optional().isString().withMessage('Phone number must be a number'),
   body('companyIndustry').optional().isString().withMessage('Company industry must be string'),
   body('description').optional().isString().withMessage('Description must be a string'),
   // Add more validations for other fields...
