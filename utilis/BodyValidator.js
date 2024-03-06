@@ -264,7 +264,7 @@ const validateAppliedJob = [
 const validateJobPosting = [
   body('positionTitle').isString().notEmpty().withMessage('Invalid positionTitle'),
   body('jobType').isString().notEmpty().withMessage('Invalid jobType'),
-  body('noOfOpenings').isInt({ min: 1 }).withMessage('Invalid noOfOpenings'),
+  body('noOfOpenings').optional().isString().withMessage('Invalid noOfOpenings'),
   body('expirationDate').isISO8601().toDate().withMessage('Invalid expirationDate'),
   body('jobLocation').isString().notEmpty().withMessage('Invalid jobLocation'),
   body('jdFile').optional().isString().withMessage('Invalid jdFile'),
