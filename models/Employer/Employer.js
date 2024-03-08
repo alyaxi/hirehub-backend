@@ -16,7 +16,7 @@ const employerSchema = new mongoose.Schema({
     type: String,
   },
   phoneNo: {
-    type: Number,
+    type: String,
   },
   companyIndustry: {
     type: String,
@@ -26,7 +26,7 @@ const employerSchema = new mongoose.Schema({
   },
   followers: {
     type: Array,
-    default: []
+    default: [],
   },
   createdAt: {
     type: Date,
@@ -49,11 +49,9 @@ const employerSchema = new mongoose.Schema({
     type: String,
     enum: ["Active", "Deactive", "On Hold"],
     default: "Active",
-    
   },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   payments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Payment" }],
-
 });
 
 module.exports = mongoose.model("Employer", employerSchema);

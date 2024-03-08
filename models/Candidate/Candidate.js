@@ -66,6 +66,7 @@ const candidateProfileSchema = new mongoose.Schema({
       selectedCountry: String,
       selectedCity: String,
       startDate: String,
+      endDate: String,
       agreeTerms: String,
       description: String,
       isDeleted: {
