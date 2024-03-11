@@ -19,7 +19,7 @@ const candidateProfileSchema = new mongoose.Schema({
     state: String,
     statusLine: String,
     zipCode: String,
-    expectedSalary:String,
+    expectedSalary: String,
     accountStatus: {
       type: String,
       enum: ["Active", "Disabled", "OnHold"]
@@ -61,6 +61,7 @@ const candidateProfileSchema = new mongoose.Schema({
       company: String,
       industry: String,
       directlyManageTeam: String,
+      selectedState: String,
       noOfPeople: String,
       salary: String,
       selectedCountry: String,
@@ -84,6 +85,8 @@ const candidateProfileSchema = new mongoose.Schema({
       endDate: String,
       selectedCountry: String,
       grade: String,
+      selectedCity: String,
+      selectedState: String,
       isDeleted: {
         type: Boolean,
         default: false
@@ -106,7 +109,7 @@ const candidateProfileSchema = new mongoose.Schema({
       id: Number,
       title: String,
       proficiency: String,
-       isDeleted: {
+      isDeleted: {
         type: Boolean,
         default: false
       },
