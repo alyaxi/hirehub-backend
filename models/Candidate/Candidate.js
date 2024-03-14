@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const candidateProfileSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Assuming there's a User model
+    ref: "User", // Assuming there's a User model
     required: true,
   },
   personalInformationData: {
@@ -19,22 +19,21 @@ const candidateProfileSchema = new mongoose.Schema({
     state: String,
     statusLine: String,
     zipCode: String,
-    expectedSalary:String,
+    expectedSalary: String,
     accountStatus: {
       type: String,
-      enum: ["Active", "Disabled", "OnHold"]
+      enum: ["Active", "Disabled", "OnHold"],
     },
     isVerified: {
       type: Boolean,
-      default: true
+      default: true,
     },
     isDeleted: {
       type: Boolean,
-      default: false
+      default: false,
     },
   },
-  summery:
-  {
+  summery: {
     text: String,
   },
   projectsData: [
@@ -50,7 +49,7 @@ const candidateProfileSchema = new mongoose.Schema({
       endDate: String,
       isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
       },
     },
   ],
@@ -64,6 +63,7 @@ const candidateProfileSchema = new mongoose.Schema({
       noOfPeople: String,
       salary: String,
       selectedCountry: String,
+      selectedState: String,
       selectedCity: String,
       startDate: String,
       endDate: String,
@@ -71,7 +71,7 @@ const candidateProfileSchema = new mongoose.Schema({
       description: String,
       isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
       },
     },
   ],
@@ -84,10 +84,12 @@ const candidateProfileSchema = new mongoose.Schema({
       startDate: String,
       endDate: String,
       selectedCountry: String,
+      selectedState: String,
+      selectedCity: String,
       grade: String,
       isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
       },
     },
   ],
@@ -98,7 +100,7 @@ const candidateProfileSchema = new mongoose.Schema({
       experience: String,
       isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
       },
     },
   ],
@@ -107,9 +109,9 @@ const candidateProfileSchema = new mongoose.Schema({
       id: Number,
       title: String,
       proficiency: String,
-       isDeleted: {
+      isDeleted: {
         type: Boolean,
-        default: false
+        default: false,
       },
     },
   ],
@@ -132,9 +134,12 @@ const candidateProfileSchema = new mongoose.Schema({
   introVideo: String,
   resumePrivacySetting: {
     type: String,
-    enum: ['Private', 'Public']
+    enum: ["Private", "Public"],
   },
 });
-const CandidateProfile = mongoose.model('CandidateProfile', candidateProfileSchema);
+const CandidateProfile = mongoose.model(
+  "CandidateProfile",
+  candidateProfileSchema
+);
 
 module.exports = CandidateProfile;
