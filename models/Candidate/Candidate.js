@@ -67,8 +67,8 @@ const candidateProfileSchema = new mongoose.Schema({
       selectedCity: String,
       startDate: String,
       endDate: String,
-      currentlyInProcess: Boolean,
       agreeTerms: String,
+      currentlyInProcess: Boolean,
       description: String,
       isDeleted: {
         type: Boolean,
