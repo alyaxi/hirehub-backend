@@ -120,6 +120,7 @@ const candidateProfileSchema = new mongoose.Schema({
   jobPreference: {
     desiredJobTitle: [String],
     desiredSalary: String,
+    industry: String,
     relocation: {
       anywhere: Boolean,
       onlyNearMe: {
