@@ -87,6 +87,7 @@ const candidateProfileSchema = new mongoose.Schema({
       selectedCountry: String,
       selectedState: String,
       selectedCity: String,
+      currentlyInProcess: Boolean,
       grade: String,
       isDeleted: {
         type: Boolean,
