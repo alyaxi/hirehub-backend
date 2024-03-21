@@ -1,7 +1,7 @@
 const Interview = require("../../models/Employer/InterviewSchedule");
 const respond = require("../../utilis/responseHelper");
 
-const scheduleInterview = async (req, res) => {
+const scheduleInterview = async (req, res, next) => {
   try {
     const {
       jobId,

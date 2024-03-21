@@ -18,7 +18,7 @@ const interviewSchema = new mongoose.Schema({
   },
   scheduledDate: {
     type: String,
-    required: true,
+    // required: true,
   },
   attachments: String,
   location: String, 

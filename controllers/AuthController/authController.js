@@ -20,6 +20,22 @@ const generateRefreshToken = (user) => {
   return jwt.sign({ id: user._id, role: user.role }, process.env.refresh_token);
 };
 
+
+
+const generateOTP = () => {
+  return Math.floor(1000 + Math.random() * 9000).toString();
+};
+const sendOTPByEmail = async (email, otp) => {
+  const html = `<p>Your OTP for registration is: ${otp}</p>`;
+  const subject = "Registration OTP";
+
+  // Use your send email function
+  const result = await sendForgetPasswordEmail(email, html, subject);
+
+  return result;
+};
+
+
 const authController = {
   // User Login
 
@@ -88,12 +104,22 @@ const authController = {
       const { name, email, password, role } = req.body;
 
       const hashedPassword = await bcrypt.hash(password, 10);
+      // const otp = generateOTP();
+
+      // Send OTP via email
+      // const otpSent = await sendOTPByEmail(email, otp);
+
+      // if (!otpSent) {
+      //   return respond(res, { error: "Failed to send OTP" }, 500);
+      // }
+
 
       const newUser = {
         name,
         email,
         password: hashedPassword,
         role,
+        // otp
       };
 
       const existingUser = await Users.findOne({ email: newUser.email });
@@ -146,7 +172,7 @@ const authController = {
         ...NewUserAdded._doc,
         accessToken,
         refreshToken,
-        msg:"User has been created"
+        msg: "User has been created"
 
       }
       respond(res, {
@@ -180,7 +206,7 @@ const authController = {
       );
       if (updatedUser) {
 
-        return respond(res, "Password has beeen changed");
+        return respond(res, "Password has been changed");
       } else {
         return respond(res, "Something went Wrong", 500);
 
@@ -200,16 +226,31 @@ const authController = {
         return respond(res, "Email does not exist", 403);
       }
       console.log(user, "usererere");
+      const isProduction = process.env.NODE_ENV === 'production';
+
+      // Set the URL based on the environment
+
       const accessToken = generateAccessToken(user);
       const refreshToken = generateRefreshToken(user);
       const Message = "Please check your email to reset your password";
-      const url = `http://localhost:3000/new-password/${accessToken}`;
+      const url = isProduction
+        ? `http://167.99.148.81/new-password/${accessToken}`
+        : `http://localhost:3000/new-password/${accessToken}`;
+
       const html = `
-      <h1>Reset Password</h1>
-      <p>Please click the following link to reset your password</p>
-      <a href="${url}">Reset Password</a>
-      `;
-      await sendForgetPasswordEmail(user.email, html);
+  <html>
+    <head>
+    <body>
+        <h1>Reset Password</h1>
+        <p>Please click the following link to reset your password:</p>
+        <a href="${url}" class="button">Reset Password</a>
+      </div>
+    </body>
+  </html>
+`;
+
+      const subject = "Forget Password"
+      await sendForgetPasswordEmail(user.email, html, subject);
       return respond(res, {
         Message
       });
@@ -224,44 +265,94 @@ const authController = {
     const { token } = req.params;
     const { password } = req.body;
 
-    console.log(token);
-
     try {
-      // const isValidToken = verifyToken(token, user);
-      const isValidToken = await   jwt.verify(
-        token,
-        process.env.access_token,
-        { algorithms: ["HS256"] },
-        (err, decoded) => {
-          if (err) {
-            return respond(res, err.message, 402);
-          }
-          return req.user = decoded;
-        }
-      );
+      const isValidToken = await jwt.verify(token, process.env.access_token, { algorithms: ["HS256"] });
+
       if (!isValidToken) {
         return respond(res, "Invalid token", 403);
-
       }
+
+      const user = await Users.findById(isValidToken.id);
+      console.log(user, "user from auth Controller")
+
+      if (!user) {
+        return respond(res, "User not found", 404);
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      console.log("Input Password:", password);
+      console.log("Stored Password:", user.password);
+      console.log("Is Match:", isMatch);
+
+      if (isMatch) {
+        return respond(res, "New password must be different from the previous one", 400);
+      }
+
       const hashedPassword = await bcrypt.hash(password, 8);
-      const updatedUser = await Users.updateOne(
-        { _id: isValidToken.id },
-        { $set: { password: hashedPassword } }
+
+      const updatedUser = await Users.findByIdAndUpdate(
+        isValidToken.id,
+        { $set: { password: hashedPassword } },
+        { new: true }
       );
-      console.log(isValidToken, "validdddddddtoken")
-      if (updatedUser) {
 
-        return respond(res, {msg:"Password has beeen reset", updatedUser}, );
-
-      } else {
-        return respond(res, "Something went Wrong",500);
-
+      if (!updatedUser) {
+        return respond(res, "Failed to update password", 500);
       }
+
+      return respond(res, { msg: "Password has been reset", updatedUser });
 
     } catch (error) {
-      next(error)
+      console.error(error);
+      return respond(res, "Something went wrong", 500);
     }
   },
+
+
+  // async recoverPassword(req, res, next) {
+  //   const { token } = req.params;
+  //   const { password } = req.body;
+
+  //   console.log(token);
+
+  //   try {
+  //     // const isValidToken = verifyToken(token, user);
+  //     const isValidToken = await jwt.verify(
+  //       token,
+  //       process.env.access_token,
+  //       { algorithms: ["HS256"] },
+  //       (err, decoded) => {
+  //         if (err) {
+  //           return respond(res, err.message, 402);
+  //         }
+  //         return req.user = decoded;
+  //       }
+  //     );
+  //     if (!isValidToken) {
+  //       return respond(res, "Invalid token", 403);
+
+  //     }
+  //     const hashedPassword = await bcrypt.hash(password, 8);
+  //     const updatedUser = await Users.updateOne(
+  //       { _id: isValidToken.id },
+  //       { $set: { password: hashedPassword } }
+  //     );
+  //     console.log(isValidToken, "validdddddddtoken")
+  //     if (updatedUser) {
+
+  //       return respond(res, { msg: "Password has been reset", updatedUser },);
+
+  //     } else {
+  //       return respond(res, "Something went Wrong", 500);
+
+  //     }
+
+  //   } catch (error) {
+  //     next(error)
+  //   }
+  // },
+
+
 
   // Refresh Token
 

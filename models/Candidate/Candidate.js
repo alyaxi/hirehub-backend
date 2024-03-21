@@ -60,6 +60,7 @@ const candidateProfileSchema = new mongoose.Schema({
       company: String,
       industry: String,
       directlyManageTeam: String,
+      selectedState: String,
       noOfPeople: String,
       salary: String,
       selectedCountry: String,
@@ -89,6 +90,8 @@ const candidateProfileSchema = new mongoose.Schema({
       selectedCity: String,
       currentlyInProcess: Boolean,
       grade: String,
+      selectedCity: String,
+      selectedState: String,
       isDeleted: {
         type: Boolean,
         default: false,

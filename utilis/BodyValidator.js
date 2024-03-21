@@ -109,7 +109,7 @@ const validateInterview = [
   body('scheduledBy').isEmpty("field required").withMessage('Invalid scheduledBy'),
 
   // Validate scheduledDate
-  body('scheduledDate').isISO8601().toDate().withMessage('Invalid scheduledDate'),
+  // body('scheduledDate').isISO8601().toDate().withMessage('Invalid scheduledDate'),
 
   // Validate location
   body('location').optional().isString().withMessage('Invalid location'),
@@ -264,7 +264,7 @@ const validateAppliedJob = [
 const validateJobPosting = [
   body('positionTitle').isString().notEmpty().withMessage('Invalid positionTitle'),
   body('jobType').isString().notEmpty().withMessage('Invalid jobType'),
-  body('noOfOpenings').isInt({ min: 1 }).withMessage('Invalid noOfOpenings'),
+  body('noOfOpenings').optional().isString().withMessage('Invalid noOfOpenings'),
   body('expirationDate').isISO8601().toDate().withMessage('Invalid expirationDate'),
   body('jobLocation').isString().notEmpty().withMessage('Invalid jobLocation'),
   body('jdFile').optional().isString().withMessage('Invalid jdFile'),
@@ -277,7 +277,7 @@ const validateJobPosting = [
   body('industry').isString().notEmpty().withMessage('Invalid industry'),
   body('JobShift').optional().isString().withMessage('Invalid JobShift'),
   body('department').isString().notEmpty().withMessage('Invalid department'),
-  body('gender').isString().notEmpty().withMessage('Invalid gender'),
+  // body('gender').isString().notEmpty().withMessage('Invalid gender'),
   body('minimumEducation').isString().notEmpty().withMessage('Invalid minimumEducation'),
   body('careerLevel').isString().notEmpty().withMessage('Invalid careerLevel'),
   body('experience').isString().notEmpty().withMessage('Invalid experience'),
