@@ -277,7 +277,7 @@ const validateJobPosting = [
   body('industry').isString().notEmpty().withMessage('Invalid industry'),
   body('JobShift').optional().isString().withMessage('Invalid JobShift'),
   body('department').isString().notEmpty().withMessage('Invalid department'),
-  // body('gender').isString().notEmpty().withMessage('Invalid gender'),
+// body('gender').isString().notEmpty().withMessage('Invalid gender'),
   body('minimumEducation').isString().notEmpty().withMessage('Invalid minimumEducation'),
   body('careerLevel').isString().notEmpty().withMessage('Invalid careerLevel'),
   body('experience').isString().notEmpty().withMessage('Invalid experience'),
