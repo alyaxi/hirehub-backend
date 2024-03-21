@@ -79,7 +79,7 @@ const jobPostingSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        required: true,
+        // required: true,
     },
     minimumEducation: {
         type: String,
